@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KodNest Premium Build System - Component Showcase</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="kodnest-design-system.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="kn-top-bar">
+    <div class="kn-top-bar__left">KodNest Premium Build System</div>
+    <div class="kn-top-bar__center">
+      <span class="kn-progress">Step 2 / 5</span>
+    </div>
+    <div class="kn-top-bar__right">
+      <span class="kn-badge kn-badge--in-progress">In Progress</span>
+    </div>
+  </div>
+
+  <!-- CONTEXT HEADER -->
+  <div class="kn-context-header">
+    <h1 class="kn-context-header__title">Component Showcase</h1>
+    <p class="kn-context-header__subtitle">A comprehensive demonstration of all design system components, typography, and layout structures following our calm, intentional design philosophy.</p>
+  </div>
+
+  <!-- MAIN CONTAINER: WORKSPACE + PANEL -->
+  <div class="kn-main-container">
+    
+    <!-- PRIMARY WORKSPACE (70%) -->
+    <div class="kn-workspace">
+      
+      <!-- Typography Section -->
+      <div class="kn-card">
+        <h2 class="kn-card__title">Typography System</h2>
+        <div class="kn-card__content">
+          <h1>Heading 1 - Serif, 48px</h1>
+          <h2>Heading 2 - Serif, 32px</h2>
+          <h3>Heading 3 - Serif, 24px</h3>
+          <p>Body text - Sans-serif, 17px, line-height 1.7. Maximum width of 720px for optimal readability. This is our standard paragraph style with generous spacing and clean typography.</p>
+          <p class="text-small">Small text - 14px, used for labels and secondary information.</p>
+          <p class="text-small text-muted">Muted text - 60% opacity, used for less important information.</p>
+        </div>
+      </div>
+
+      <!-- Color Palette -->
+      <div class="kn-card">
+        <h2 class="kn-card__title">Color Palette</h2>
+        <div class="kn-card__content">
+          <p class="kn-mb-sm">Maximum 4 colors across the entire system:</p>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div>
+              <div style="width: 120px; height: 80px; background: #F7F6F3; border: 1px solid rgba(17,17,17,0.2); border-radius: 4px;"></div>
+              <p class="text-small kn-mt-xs">Background<br>#F7F6F3</p>
+            </div>
+            <div>
+              <div style="width: 120px; height: 80px; background: #111111; border-radius: 4px;"></div>
+              <p class="text-small kn-mt-xs">Primary Text<br>#111111</p>
+            </div>
+            <div>
+              <div style="width: 120px; height: 80px; background: #8B0000; border-radius: 4px;"></div>
+              <p class="text-small kn-mt-xs">Accent (Deep Red)<br>#8B0000</p>
+            </div>
+            <div>
+              <div style="width: 120px; height: 80px; background: #4A6741; border-radius: 4px;"></div>
+              <p class="text-small kn-mt-xs">Success<br>#4A6741</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spacing System -->
+      <div class="kn-card">
+        <h2 class="kn-card__title">Spacing System</h2>
+        <div class="kn-card__content">
+          <p class="kn-mb-sm">Consistent 8px-based scale. Never use random values.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="width: 8px; height: 8px; background: #8B0000;"></div>
+              <span class="text-small">8px - XS</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="width: 16px; height: 16px; background: #8B0000;"></div>
+              <span class="text-small">16px - SM</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="width: 24px; height: 24px; background: #8B0000;"></div>
+              <span class="text-small">24px - MD</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="width: 40px; height: 40px; background: #8B0000;"></div>
+              <span class="text-small">40px - LG</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="width: 64px; height: 64px; background: #8B0000;"></div>
+              <span class="text-small">64px - XL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="kn-card">
+        <h2 class="kn-card__title">Buttons</h2>
+        <div class="kn-card__content">
+          <div class="kn-mb-md">
+            <p class="text-small text-muted kn-mb-sm">PRIMARY BUTTONS</p>
+            <div class="kn-button-group">
+              <button class="kn-button kn-button--primary">Primary Action</button>
+              <button class="kn-button kn-button--primary kn-button--small">Small Primary</button>
+              <button class="kn-button kn-button--primary" disabled>Disabled</button>
+            </div>
+          </div>
+          <div>
+            <p class="text-small text-muted kn-mb-sm">SECONDARY BUTTONS</p>
+            <div class="kn-button-group">
+              <button class="kn-button kn-button--secondary">Secondary Action</button>
+              <button class="kn-button kn-button--secondary kn-button--small">Small Secondary</button>
+              <button class="kn-button kn-button--secondary" disabled>Disabled</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Fields -->
+      <div class="kn-card">
+        <h2 class="kn-card__title">Input Fields</h2>
+        <div class="kn-card__content">
+          <div class="kn-mb-md">
+            <label class="text-small text-muted kn-mb-xs" style="display: block;">Text Input</label>
+            <input type="text" class="kn-input" placeholder="Enter your text here">
+          </div>
+          <div>
+            <label class="text-small text-muted kn-mb-xs" style="display: block;">Textarea</label>
+            <textarea class="kn-textarea" placeholder="Enter multiline text here"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Badges -->
+      <div class="kn-card">
+        <h2 class="kn-card__title">Status Badges</h2>
+        <div class="kn-card__content">
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <span class="kn-badge kn-badge--not-started">Not Started</span>
+            <span class="kn-badge kn-badge--in-progress">In Progress</span>
+            <span class="kn-badge kn-badge--shipped">Shipped</span>
+            <span class="kn-badge kn-badge--warning">Warning</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error & Empty States -->
+      <div class="kn-card">
+        <h2 class="kn-card__title">Error & Empty States</h2>
+        <div class="kn-card__content">
+          <div class="kn-error-state kn-mb-md">
+            <p class="kn-error-state__title">Connection Failed</p>
+            <p class="kn-error-state__message">We couldn't connect to the server. Please check your internet connection and try again.</p>
+          </div>
+          
+          <div class="kn-empty-state">
+            <p class="kn-empty-state__title">No Projects Yet</p>
+            <p>Start by creating your first project to see it here.</p>
+            <div class="kn-empty-state__action">
+              <button class="kn-button kn-button--primary">Create Project</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECONDARY PANEL (30%) -->
+    <div class="kn-panel">
+      
+      <div class="kn-panel__section">
+        <h3 class="kn-panel__section-title">Step Explanation</h3>
+        <p class="text-small kn-mb-md">This is a short, clear explanation of what should happen in this step. No hype language, just direct and helpful guidance.</p>
+      </div>
+
+      <div class="kn-panel__section">
+        <h3 class="kn-panel__section-title">Copyable Prompt</h3>
+        <div class="kn-prompt-box kn-mb-sm">
+          <pre class="kn-prompt-box__content">Create a new component that follows the KodNest design system principles.</pre>
+        </div>
+        <button class="kn-button kn-button--secondary kn-button--small">Copy Prompt</button>
+      </div>
+
+      <div class="kn-panel__section">
+        <h3 class="kn-panel__section-title">Actions</h3>
+        <div class="kn-button-group" style="flex-direction: column; align-items: stretch;">
+          <button class="kn-button kn-button--primary kn-button--small">Build in Lovable</button>
+          <button class="kn-button kn-button--secondary kn-button--small">It Worked ✓</button>
+          <button class="kn-button kn-button--secondary kn-button--small">Error Report</button>
+          <button class="kn-button kn-button--secondary kn-button--small">Add Screenshot</button>
+        </div>
+      </div>
+
+      <div class="kn-panel__section">
+        <h3 class="kn-panel__section-title">Checkboxes</h3>
+        <label class="kn-checkbox kn-mb-xs">
+          <input type="checkbox" class="kn-checkbox__input">
+          <span class="kn-checkbox__label">Interface designed</span>
+        </label>
+        <label class="kn-checkbox kn-mb-xs">
+          <input type="checkbox" class="kn-checkbox__input" checked>
+          <span class="kn-checkbox__label">Logic implemented</span>
+        </label>
+        <label class="kn-checkbox">
+          <input type="checkbox" class="kn-checkbox__input">
+          <span class="kn-checkbox__label">Tests passing</span>
+        </label>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PROOF FOOTER -->
+  <div class="kn-proof-footer">
+    <h3 class="kn-proof-footer__title">Proof of Completion</h3>
+    <div class="kn-proof-checklist">
+      <label class="kn-checkbox">
+        <input type="checkbox" class="kn-checkbox__input">
+        <span class="kn-checkbox__label">UI Built</span>
+      </label>
+      <label class="kn-checkbox">
+        <input type="checkbox" class="kn-checkbox__input">
+        <span class="kn-checkbox__label">Logic Working</span>
+      </label>
+      <label class="kn-checkbox">
+        <input type="checkbox" class="kn-checkbox__input">
+        <span class="kn-checkbox__label">Test Passed</span>
+      </label>
+      <label class="kn-checkbox">
+        <input type="checkbox" class="kn-checkbox__input">
+        <span class="kn-checkbox__label">Deployed</span>
+      </label>
+    </div>
+  </div>
+
+</body>
+</html>

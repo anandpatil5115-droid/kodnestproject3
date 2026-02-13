@@ -1,0 +1,568 @@
+/*
+ * KodNest Premium Build System
+ * Design System v1.0
+ * 
+ * Philosophy: Calm, Intentional, Coherent, Confident
+ * No gradients, no glassmorphism, no neon, no animation noise
+ */
+
+/* ============================================
+   CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   ============================================ */
+
+:root {
+    /* Color System - Maximum 4 colors */
+    --color-background: #F7F6F3;
+    --color-text-primary: #111111;
+    --color-accent: #8B0000;
+    --color-success: #4A6741;
+    --color-warning: #B8860B;
+
+    /* Typography */
+    --font-serif: 'Playfair Display', 'Georgia', serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --font-size-body: 17px;
+    --line-height-body: 1.7;
+    --line-height-heading: 1.2;
+
+    --font-size-h1: 48px;
+    --font-size-h2: 32px;
+    --font-size-h3: 24px;
+    --font-size-small: 14px;
+
+    /* Spacing System - Strict 8px scale */
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 40px;
+    --space-xl: 64px;
+
+    /* Layout Widths */
+    --text-max-width: 720px;
+    --workspace-split: 70%;
+    --panel-split: 30%;
+
+    /* Interaction */
+    --transition-speed: 180ms;
+    --transition-timing: ease-in-out;
+    --border-radius: 4px;
+}
+
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   TYPOGRAPHY SYSTEM
+   ============================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-serif);
+    line-height: var(--line-height-heading);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+    margin-bottom: var(--space-md);
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+}
+
+p {
+    margin-bottom: var(--space-sm);
+    max-width: var(--text-max-width);
+}
+
+.text-small {
+    font-size: var(--font-size-small);
+    line-height: 1.5;
+}
+
+.text-muted {
+    opacity: 0.6;
+}
+
+/* ============================================
+   GLOBAL LAYOUT STRUCTURE
+   ============================================ */
+
+/* Top Bar */
+.kn-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--color-background);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+}
+
+.kn-top-bar__left {
+    font-weight: 600;
+    font-size: var(--font-size-body);
+}
+
+.kn-top-bar__center {
+    font-size: var(--font-size-small);
+    color: var(--color-text-primary);
+    opacity: 0.7;
+}
+
+.kn-top-bar__right {
+    /* Badge goes here */
+}
+
+/* Context Header */
+.kn-context-header {
+    padding: var(--space-xl) var(--space-lg) var(--space-lg);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.kn-context-header__title {
+    font-size: var(--font-size-h1);
+    font-family: var(--font-serif);
+    margin-bottom: var(--space-xs);
+}
+
+.kn-context-header__subtitle {
+    font-size: var(--font-size-body);
+    opacity: 0.7;
+    max-width: var(--text-max-width);
+}
+
+/* Main Container - Workspace + Panel */
+.kn-main-container {
+    display: flex;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 500px;
+}
+
+/* Primary Workspace (70%) */
+.kn-workspace {
+    flex: 7;
+    min-width: 0;
+}
+
+/* Secondary Panel (30%) */
+.kn-panel {
+    flex: 3;
+    min-width: 280px;
+}
+
+.kn-panel__section {
+    margin-bottom: var(--space-lg);
+}
+
+.kn-panel__section-title {
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--space-sm);
+    opacity: 0.6;
+}
+
+/* Proof Footer */
+.kn-proof-footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--color-background);
+    border-top: 1px solid rgba(17, 17, 17, 0.1);
+    padding: var(--space-md) var(--space-lg);
+}
+
+.kn-proof-footer__title {
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--space-sm);
+    opacity: 0.6;
+}
+
+.kn-proof-checklist {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   COMPONENTS
+   ============================================ */
+
+/* Buttons */
+.kn-button {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-body);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--border-radius);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-timing);
+    font-weight: 500;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+.kn-button--primary {
+    background: var(--color-accent);
+    color: var(--color-background);
+    border-color: var(--color-accent);
+}
+
+.kn-button--primary:hover {
+    background: #6D0000;
+    border-color: #6D0000;
+}
+
+.kn-button--secondary {
+    background: transparent;
+    color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+}
+
+.kn-button--secondary:hover {
+    background: var(--color-text-primary);
+    color: var(--color-background);
+}
+
+.kn-button--small {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-small);
+}
+
+.kn-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.kn-button-group {
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+}
+
+/* Input Fields */
+.kn-input {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-body);
+    padding: var(--space-sm);
+    border: 1px solid rgba(17, 17, 17, 0.2);
+    border-radius: var(--border-radius);
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    transition: border-color var(--transition-speed) var(--transition-timing);
+    width: 100%;
+}
+
+.kn-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.kn-input::placeholder {
+    opacity: 0.5;
+}
+
+.kn-textarea {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-body);
+    padding: var(--space-sm);
+    border: 1px solid rgba(17, 17, 17, 0.2);
+    border-radius: var(--border-radius);
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    transition: border-color var(--transition-speed) var(--transition-timing);
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+    line-height: var(--line-height-body);
+}
+
+.kn-textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+/* Cards */
+.kn-card {
+    background: var(--color-background);
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: var(--border-radius);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.kn-card__title {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-h3);
+    margin-bottom: var(--space-sm);
+}
+
+.kn-card__content {
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+}
+
+/* Status Badge */
+.kn-badge {
+    display: inline-block;
+    font-size: var(--font-size-small);
+    font-weight: 500;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--border-radius);
+    border: 1px solid;
+}
+
+.kn-badge--not-started {
+    background: transparent;
+    color: var(--color-text-primary);
+    border-color: rgba(17, 17, 17, 0.2);
+}
+
+.kn-badge--in-progress {
+    background: transparent;
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.kn-badge--shipped {
+    background: var(--color-success);
+    color: var(--color-background);
+    border-color: var(--color-success);
+}
+
+.kn-badge--warning {
+    background: transparent;
+    color: var(--color-warning);
+    border-color: var(--color-warning);
+}
+
+/* Progress Indicator */
+.kn-progress {
+    font-size: var(--font-size-small);
+    color: var(--color-text-primary);
+}
+
+/* Checkbox */
+.kn-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    cursor: pointer;
+    user-select: none;
+}
+
+.kn-checkbox__input {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(17, 17, 17, 0.3);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+
+.kn-checkbox__input:checked {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.kn-checkbox__input:checked::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--color-background);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.kn-checkbox__label {
+    font-size: var(--font-size-body);
+}
+
+/* Prompt Box */
+.kn-prompt-box {
+    background: rgba(17, 17, 17, 0.03);
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: var(--border-radius);
+    padding: var(--space-sm);
+    font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: var(--space-sm);
+    position: relative;
+}
+
+.kn-prompt-box__content {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.kn-mb-xs {
+    margin-bottom: var(--space-xs);
+}
+
+.kn-mb-sm {
+    margin-bottom: var(--space-sm);
+}
+
+.kn-mb-md {
+    margin-bottom: var(--space-md);
+}
+
+.kn-mb-lg {
+    margin-bottom: var(--space-lg);
+}
+
+.kn-mb-xl {
+    margin-bottom: var(--space-xl);
+}
+
+.kn-mt-xs {
+    margin-top: var(--space-xs);
+}
+
+.kn-mt-sm {
+    margin-top: var(--space-sm);
+}
+
+.kn-mt-md {
+    margin-top: var(--space-md);
+}
+
+.kn-mt-lg {
+    margin-top: var(--space-lg);
+}
+
+.kn-mt-xl {
+    margin-top: var(--space-xl);
+}
+
+/* ============================================
+   ERROR & EMPTY STATES
+   ============================================ */
+
+.kn-error-state {
+    padding: var(--space-md);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    background: rgba(139, 0, 0, 0.03);
+}
+
+.kn-error-state__title {
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: var(--space-xs);
+}
+
+.kn-error-state__message {
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+}
+
+.kn-empty-state {
+    padding: var(--space-lg);
+    text-align: center;
+    color: var(--color-text-primary);
+    opacity: 0.6;
+}
+
+.kn-empty-state__title {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-h3);
+    margin-bottom: var(--space-sm);
+}
+
+.kn-empty-state__action {
+    margin-top: var(--space-md);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 968px) {
+    .kn-main-container {
+        flex-direction: column;
+    }
+
+    .kn-workspace,
+    .kn-panel {
+        flex: 1;
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    :root {
+        --font-size-h1: 36px;
+        --font-size-h2: 28px;
+        --font-size-body: 16px;
+        --space-lg: 24px;
+        --space-xl: 40px;
+    }
+
+    .kn-top-bar {
+        padding: var(--space-sm);
+    }
+
+    .kn-context-header {
+        padding: var(--space-lg) var(--space-sm);
+    }
+
+    .kn-main-container {
+        padding: var(--space-sm);
+    }
+
+    .kn-proof-checklist {
+        flex-direction: column;
+    }
+}
