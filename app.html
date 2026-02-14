@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Notification Tracker - KodNest</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="kodnest-design-system.css">
+</head>
+
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <nav class="kn-app-nav">
+        <div class="kn-app-nav__container">
+            <div class="kn-app-nav__brand">
+                <h1 class="kn-app-nav__title">Job Tracker</h1>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="kn-app-nav__links" id="navLinks">
+                <a href="#/dashboard" class="kn-app-nav__link" data-route="/dashboard">Dashboard</a>
+                <a href="#/saved" class="kn-app-nav__link" data-route="/saved">Saved</a>
+                <a href="#/digest" class="kn-app-nav__link" data-route="/digest">Digest</a>
+                <a href="#/settings" class="kn-app-nav__link" data-route="/settings">Settings</a>
+                <a href="#/proof" class="kn-app-nav__link" data-route="/proof">Proof</a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button class="kn-app-nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ROUTE CONTAINER -->
+    <main class="kn-app-main" id="appContent">
+        <!-- Routes will be rendered here -->
+    </main>
+
+    <!-- Routing Script -->
+    <script src="app.js"></script>
+
+</body>
+
+</html>
