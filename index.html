@@ -44,9 +44,17 @@
         </div>
     </nav>
 
-    <!-- APP CONTENT (Renders Header, Workspace, Panel) -->
+    <!-- Dynamic content injected here -->
     <div id="appContent">
         <!-- Dynamic content injected here -->
+    </div>
+
+    <!-- JOB DETAIL MODAL -->
+    <div id="jobModal" class="kn-modal">
+        <div class="kn-modal__content">
+            <button class="kn-modal__close" id="closeModal">&times;</button>
+            <div id="modalBody"></div>
+        </div>
     </div>
 
     <!-- PROOF FOOTER (Persistent Bottom Section) -->
@@ -73,6 +81,7 @@
     </footer>
 
     <!-- Routing Script -->
+    <script src="jobs.js"></script>
     <script src="app.js"></script>
 
 </body>

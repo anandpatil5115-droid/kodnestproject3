@@ -1,216 +1,341 @@
 /**
- * Job Notification Tracker - Client-Side Routing
- * Full Layout Structure: [Top Bar] → [Context Header] → [Primary Workspace + Secondary Panel] → [Proof Footer]
+ * Job Notification Tracker - Enhanced Logic
  */
 
-// Route definitions with placeholder content
-const routes = {
-  '/': {
-    title: 'Home',
-    isLanding: true,
-    headline: 'Stop Missing The Right Jobs.',
-    subtext: 'Precision-matched job discovery delivered daily at 9AM.',
-    ctaText: 'Start Tracking',
-    ctaLink: '/settings'
-  },
-  '/dashboard': {
-    title: 'Dashboard',
-    subtitle: 'Manage and track your job applications and notifications.',
-    emptyState: {
-      title: 'No jobs yet',
-      message: 'In the next step, you will load a realistic dataset.'
-    }
-  },
-  '/saved': {
-    title: 'Saved Jobs',
-    subtitle: 'View and manage jobs you have marked as interesting.',
-    emptyState: {
-      title: 'No saved jobs',
-      message: 'Your saved jobs will appear here for easy access.'
-    }
-  },
-  '/digest': {
-    title: 'Daily Digest',
-    subtitle: 'Summarized job listings from the last 24 hours.',
-    emptyState: {
-      title: 'Digest is empty',
-      message: 'Check back tomorrow at 9AM for your next precision-matched digest.'
-    }
-  },
-  '/settings': {
-    title: 'Settings',
-    subtitle: 'Configure your job search filters and notification preferences.'
-  },
-  '/proof': {
-    title: 'Proof of Work',
-    subtitle: 'Artifact collection for project verification.',
-    emptyState: {
-      title: 'No artifacts yet',
-      message: 'This page will house your project artifacts and completion evidence.'
-    }
-  }
+// Global State
+let currentFilters = {
+  keyword: '',
+  location: '',
+  mode: '',
+  experience: '',
+  source: '',
+  sort: 'latest'
 };
 
 /**
- * Render the full page structure according to design philosophy
+ * Filter and Sort Jobs
  */
-function renderPage(route) {
-  const data = routes[route];
+function getProcessedJobs() {
+  let filtered = JOB_DATA.filter(job => {
+    const matchesKeyword = !currentFilters.keyword ||
+      job.title.toLowerCase().includes(currentFilters.keyword.toLowerCase()) ||
+      job.company.toLowerCase().includes(currentFilters.keyword.toLowerCase());
 
-  if (data.isLanding) {
+    const matchesLocation = !currentFilters.location || job.location === currentFilters.location;
+    const matchesMode = !currentFilters.mode || job.mode === currentFilters.mode;
+    const matchesExperience = !currentFilters.experience || job.experience === currentFilters.experience;
+    const matchesSource = !currentFilters.source || job.source === currentFilters.source;
+
+    return matchesKeyword && matchesLocation && matchesMode && matchesExperience && matchesSource;
+  });
+
+  if (currentFilters.sort === 'latest') {
+    filtered.sort((a, b) => a.postedDaysAgo - b.postedDaysAgo);
+  } else if (currentFilters.sort === 'salary-high') {
+    // Simple heuristic for salary sorting (would need better parsing for real use)
+    filtered.sort((a, b) => b.id - a.id);
+  }
+
+  return filtered;
+}
+
+/**
+ * Job Card Component
+ */
+function createJobCard(job, isSaved) {
+  const sourceClass = `kn-source-badge--${job.source.toLowerCase()}`;
+  const savedText = isSaved ? 'Unsave' : 'Save';
+  const savedClass = isSaved ? 'kn-button--secondary' : 'kn-button--secondary';
+
+  return `
+        <div class="kn-job-card" data-id="${job.id}">
+            <div class="kn-job-card__main">
+                <div class="kn-job-card__title">${job.title}</div>
+                <div class="kn-job-card__company">${job.company}</div>
+                <div class="kn-job-card__meta">
+                    <span class="kn-job-card__meta-item">📍 ${job.location} (${job.mode})</span>
+                    <span class="kn-job-card__meta-item">💼 ${job.experience}</span>
+                    <span class="kn-job-card__meta-item">💰 ${job.salaryRange}</span>
+                    <span class="kn-source-badge ${sourceClass}">${job.source}</span>
+                    <span class="kn-job-card__meta-item">${job.postedDaysAgo === 0 ? 'Just now' : job.postedDaysAgo + ' days ago'}</span>
+                </div>
+            </div>
+            <div class="kn-job-card__actions">
+                <button class="kn-button kn-button--primary kn-button--small action-view">View</button>
+                <button class="kn-button ${savedClass} kn-button--small action-save">${savedText}</button>
+                <a href="${job.applyUrl}" target="_blank" class="kn-button kn-button--secondary kn-button--small">Apply</a>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Filter Bar Component
+ */
+function createFilterBar() {
+  const locations = [...new Set(JOB_DATA.map(j => j.location))].sort();
+  const modes = [...new Set(JOB_DATA.map(j => j.mode))];
+  const exps = ['Fresher', '0-1', '1-3', '3-5'];
+  const sources = ['LinkedIn', 'Naukri', 'Indeed'];
+
+  return `
+        <div class="kn-filter-bar">
+            <div class="kn-filter-group" style="flex: 2;">
+                <label>Search</label>
+                <input type="text" class="kn-input filter-keyword" placeholder="Role or company..." value="${currentFilters.keyword}">
+            </div>
+            <div class="kn-filter-group">
+                <label>Location</label>
+                <select class="kn-input filter-location">
+                    <option value="">All Locations</option>
+                    ${locations.map(l => `<option value="${l}" ${currentFilters.location === l ? 'selected' : ''}>${l}</option>`).join('')}
+                </select>
+            </div>
+            <div class="kn-filter-group">
+                <label>Mode</label>
+                <select class="kn-input filter-mode">
+                    <option value="">All Modes</option>
+                    ${modes.map(m => `<option value="${m}" ${currentFilters.mode === m ? 'selected' : ''}>${m}</option>`).join('')}
+                </select>
+            </div>
+            <div class="kn-filter-group">
+                <label>Experience</label>
+                <select class="kn-input filter-experience">
+                    <option value="">All Experience</option>
+                    ${exps.map(e => `<option value="${e}" ${currentFilters.experience === e ? 'selected' : ''}>${e}</option>`).join('')}
+                </select>
+            </div>
+            <div class="kn-filter-group">
+                <label>Sort</label>
+                <select class="kn-input filter-sort">
+                    <option value="latest" ${currentFilters.sort === 'latest' ? 'selected' : ''}>Latest</option>
+                    <option value="salary-high" ${currentFilters.sort === 'salary-high' ? 'selected' : ''}>Featured</option>
+                </select>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Route handlers
+ */
+const routes = {
+  '/': { isLanding: true },
+  '/dashboard': { title: 'Job Dashboard', subtitle: 'Precision-matched jobs for your profile.' },
+  '/saved': { title: 'Saved Jobs', subtitle: 'Jobs you have shortlisted.' },
+  '/settings': { title: 'Settings', subtitle: 'Manage your search preferences.' },
+  '/digest': { title: 'Daily Digest', subtitle: 'Your personalized job summary.' },
+  '/proof': { title: 'Proof of Work', subtitle: 'Project verification assets.' }
+};
+
+function renderPage(path) {
+  if (path === '/') {
     return `
             <div class="kn-placeholder-page">
-                <h1 class="kn-placeholder-page__title">${data.headline}</h1>
-                <p class="kn-placeholder-page__subtitle">${data.subtext}</p>
+                <h1 class="kn-placeholder-page__title">Stop Missing The Right Jobs.</h1>
+                <p class="kn-placeholder-page__subtitle">Precision-matched job discovery delivered daily at 9AM.</p>
                 <div class="kn-empty-state__action">
-                    <a href="#${data.ctaLink}" class="kn-button kn-button--primary">${data.ctaText}</a>
+                    <a href="#/dashboard" class="kn-button kn-button--primary">Start Tracking</a>
                 </div>
             </div>
         `;
   }
 
+  const data = routes[path];
   let workspaceContent = '';
 
-  if (route === '/settings') {
+  if (path === '/dashboard') {
+    const processedJobs = getProcessedJobs();
+    const savedIds = JSON.parse(localStorage.getItem('savedJobs') || '[]');
+
+    workspaceContent = `
+            ${createFilterBar()}
+            <div class="kn-job-list">
+                ${processedJobs.length ? processedJobs.map(j => createJobCard(j, savedIds.includes(j.id))).join('') : `
+                    <div class="kn-empty-state">
+                        <p class="kn-empty-state__title">No matches found</p>
+                        <p>Try adjusting your filters to see more results.</p>
+                    </div>
+                `}
+            </div>
+        `;
+  } else if (path === '/saved') {
+    const savedIds = JSON.parse(localStorage.getItem('savedJobs') || '[]');
+    const savedJobs = JOB_DATA.filter(j => savedIds.includes(j.id));
+
+    workspaceContent = `
+            <div class="kn-job-list">
+                ${savedJobs.length ? savedJobs.map(j => createJobCard(j, true)).join('') : `
+                    <div class="kn-empty-state">
+                        <p class="kn-empty-state__title">No saved jobs</p>
+                        <p>Shortlist jobs on the dashboard to see them here.</p>
+                        <div class="kn-empty-state__action">
+                            <a href="#/dashboard" class="kn-button kn-button--primary">Browse Jobs</a>
+                        </div>
+                    </div>
+                `}
+            </div>
+        `;
+  } else if (path === '/settings') {
     workspaceContent = `
             <div class="kn-card">
-                <h2 class="kn-card__title">Job Preferences</h2>
+                <h2 class="kn-card__title">Preferences</h2>
                 <div class="kn-card__content">
-                    <div class="kn-mb-md">
-                        <label class="kn-panel__section-title" style="display: block; margin-bottom: 8px;">Role Keywords</label>
-                        <input type="text" class="kn-input" placeholder="e.g. Frontend Developer, Product Manager">
-                    </div>
-                    <div class="kn-mb-md">
-                        <label class="kn-panel__section-title" style="display: block; margin-bottom: 8px;">Preferred Locations</label>
-                        <input type="text" class="kn-input" placeholder="e.g. Remote, San Francisco, New York">
-                    </div>
-                    <div class="kn-mb-md">
-                        <label class="kn-panel__section-title" style="display: block; margin-bottom: 8px;">Mode</label>
-                        <select class="kn-input">
-                            <option value="">Select Mode</option>
-                            <option value="remote">Remote</option>
-                            <option value="hybrid">Hybrid</option>
-                            <option value="onsite">Onsite</option>
-                        </select>
-                    </div>
-                    <div class="kn-mb-md">
-                        <label class="kn-panel__section-title" style="display: block; margin-bottom: 8px;">Experience Level</label>
-                        <select class="kn-input">
-                            <option value="">Select Experience</option>
-                            <option value="entry">Entry Level</option>
-                            <option value="mid">Mid Level</option>
-                            <option value="senior">Senior Level</option>
-                            <option value="lead">Lead / Manager</option>
-                        </select>
-                    </div>
-                    <button class="kn-button kn-button--primary" disabled>Save Preferences</button>
-                    <p class="text-small text-muted kn-mt-sm">Logic implementation coming in the next stage.</p>
+                    <p>Logic for preference matching will be implemented in the next step.</p>
                 </div>
             </div>
         `;
   } else {
     workspaceContent = `
             <div class="kn-empty-state">
-                <p class="kn-empty-state__title">${data.emptyState.title}</p>
-                <p>${data.emptyState.message}</p>
+                <p class="kn-empty-state__title">Coming Soon</p>
+                <p>Features for ${data.title.toLowerCase()} are in development.</p>
             </div>
         `;
   }
 
   return `
-    <!-- CONTEXT HEADER -->
-    <header class="kn-context-header">
-      <h1 class="kn-context-header__title">${data.title}</h1>
-      <p class="kn-context-header__subtitle">${data.subtitle}</p>
-    </header>
-
-    <!-- MAIN CONTAINER -->
-    <div class="kn-main-container">
-      
-      <!-- PRIMARY WORKSPACE (70%) -->
-      <main class="kn-workspace">
-        ${workspaceContent}
-      </main>
-
-      <!-- SECONDARY PANEL (30%) -->
-      <aside class="kn-panel">
-        <div class="kn-panel__section">
-          <h3 class="kn-panel__section-title">Instructions</h3>
-          <p class="text-small">This is a premium skeleton. Navigation and layout are fully functional. Feature logic will be implemented as discrete datasets are introduced.</p>
+        <header class="kn-context-header">
+            <h1 class="kn-context-header__title">${data.title}</h1>
+            <p class="kn-context-header__subtitle">${data.subtitle}</p>
+        </header>
+        <div class="kn-main-container">
+            <main class="kn-workspace">${workspaceContent}</main>
+            <aside class="kn-panel">
+                <div class="kn-panel__section">
+                    <h3 class="kn-panel__section-title">Instructions</h3>
+                    <p class="text-small">Use the dashboard to browse 60+ live tech roles. View details or save for later.</p>
+                </div>
+                <div class="kn-panel__section">
+                    <h3 class="kn-panel__section-title">Next Step</h3>
+                    <div class="kn-prompt-box">
+                        <pre class="kn-prompt-box__content">Implement matching scoring logic</pre>
+                    </div>
+                </div>
+            </aside>
         </div>
-
-        <div class="kn-panel__section">
-          <h3 class="kn-panel__section-title">Next Step</h3>
-          <div class="kn-prompt-box">
-            <pre class="kn-prompt-box__content">Inject realistic job dataset</pre>
-          </div>
-        </div>
-      </aside>
-    </div>
-  `;
+    `;
 }
 
 /**
- * Navigate to a route
+ * Interactions
+ */
+function setupEventListeners() {
+  document.addEventListener('click', e => {
+    const target = e.target;
+
+    // View Modal
+    if (target.classList.contains('action-view')) {
+      const id = parseInt(target.closest('.kn-job-card').dataset.id);
+      const job = JOB_DATA.find(j => j.id === id);
+      showModal(job);
+    }
+
+    // Save Toggle
+    if (target.classList.contains('action-save')) {
+      const id = parseInt(target.closest('.kn-job-card').dataset.id);
+      toggleSave(id);
+      navigateTo(getCurrentRoute()); // Re-render current page
+    }
+
+    // Close Modal
+    if (target.id === 'closeModal' || target.id === 'jobModal') {
+      document.getElementById('jobModal').classList.remove('kn-modal--open');
+    }
+  });
+
+  // Filtering
+  document.addEventListener('input', e => {
+    if (e.target.classList.contains('filter-keyword')) {
+      currentFilters.keyword = e.target.value;
+      renderDynamicContent();
+    }
+  });
+
+  document.addEventListener('change', e => {
+    if (e.target.classList.contains('filter-location')) {
+      currentFilters.location = e.target.value;
+      renderDynamicContent();
+    }
+    if (e.target.classList.contains('filter-mode')) {
+      currentFilters.mode = e.target.value;
+      renderDynamicContent();
+    }
+    if (e.target.classList.contains('filter-experience')) {
+      currentFilters.experience = e.target.value;
+      renderDynamicContent();
+    }
+    if (e.target.classList.contains('filter-sort')) {
+      currentFilters.sort = e.target.value;
+      renderDynamicContent();
+    }
+  });
+}
+
+function renderDynamicContent() {
+  const path = getCurrentRoute();
+  if (path === '/dashboard' || path === '/saved') {
+    document.getElementById('appContent').innerHTML = renderPage(path);
+  }
+}
+
+function showModal(job) {
+  const modal = document.getElementById('jobModal');
+  const body = document.getElementById('modalBody');
+
+  body.innerHTML = `
+        <h2 class="kn-card__title">${job.title}</h2>
+        <div class="kn-job-card__company" style="font-size: 1.2rem;">${job.company}</div>
+        <p class="kn-mt-md">${job.description}</p>
+        <div class="kn-panel__section-title kn-mt-md">Required Skills</div>
+        <div class="kn-tag-list">
+            ${job.skills.map(s => `<span class="kn-tag">${s}</span>`).join('')}
+        </div>
+        <div class="kn-mt-xl">
+            <a href="${job.applyUrl}" target="_blank" class="kn-button kn-button--primary">Apply Now</a>
+        </div>
+    `;
+
+  modal.classList.add('kn-modal--open');
+}
+
+function toggleSave(id) {
+  let saved = JSON.parse(localStorage.getItem('savedJobs') || '[]');
+  if (saved.includes(id)) {
+    saved = saved.filter(i => i !== id);
+  } else {
+    saved.push(id);
+  }
+  localStorage.setItem('savedJobs', JSON.stringify(saved));
+}
+
+/**
+ * Navigation Core
  */
 function navigateTo(path) {
-  const route = routes[path];
-
-  if (!route) {
-    window.location.hash = '#/dashboard';
-    return;
-  }
-
-  if (route.redirect) {
-    window.location.hash = `#${route.redirect}`;
-    return;
-  }
-
-  // Render the page structure
   const appContent = document.getElementById('appContent');
   appContent.innerHTML = renderPage(path);
-
-  // Update UI state
   updateActiveNavLink(path);
   closeMobileMenu();
   window.scrollTo(0, 0);
 }
 
-/**
- * Update active navigation link highlighting
- */
 function updateActiveNavLink(currentPath) {
-  const navLinks = document.querySelectorAll('.kn-app-nav__link');
-  navLinks.forEach(link => {
-    const linkRoute = link.getAttribute('data-route');
-    if (linkRoute === currentPath) {
-      link.classList.add('kn-app-nav__link--active');
-    } else {
-      link.classList.remove('kn-app-nav__link--active');
-    }
+  document.querySelectorAll('.kn-app-nav__link').forEach(link => {
+    link.classList.toggle('kn-app-nav__link--active', link.getAttribute('data-route') === currentPath);
   });
 }
 
-/**
- * Mobile menu toggle
- */
 function toggleMobileMenu() {
-  const navLinks = document.getElementById('navLinks');
-  const hamburger = document.getElementById('hamburger');
-  navLinks.classList.toggle('kn-app-nav__links--open');
-  hamburger.classList.toggle('kn-app-nav__hamburger--active');
+  document.getElementById('navLinks').classList.toggle('kn-app-nav__links--open');
+  document.getElementById('hamburger').classList.toggle('kn-app-nav__hamburger--active');
 }
 
 function closeMobileMenu() {
-  const navLinks = document.getElementById('navLinks');
-  const hamburger = document.getElementById('hamburger');
-  if (navLinks) navLinks.classList.remove('kn-app-nav__links--open');
-  if (hamburger) hamburger.classList.remove('kn-app-nav__hamburger--active');
+  document.getElementById('navLinks')?.classList.remove('kn-app-nav__links--open');
+  document.getElementById('hamburger')?.classList.remove('kn-app-nav__hamburger--active');
 }
 
-/**
- * Get current route from hash
- */
 function getCurrentRoute() {
   const hash = window.location.hash;
   return hash ? hash.substring(1) : '/';
@@ -220,15 +345,10 @@ function handleRouteChange() {
   navigateTo(getCurrentRoute());
 }
 
-/**
- * Initialize
- */
 function init() {
   window.addEventListener('hashchange', handleRouteChange);
-
-  const hamburger = document.getElementById('hamburger');
-  if (hamburger) hamburger.addEventListener('click', toggleMobileMenu);
-
+  document.getElementById('hamburger')?.addEventListener('click', toggleMobileMenu);
+  setupEventListeners();
   handleRouteChange();
 }
 
