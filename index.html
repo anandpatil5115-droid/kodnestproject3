@@ -19,7 +19,7 @@
 
 <body>
 
-    <!-- TOP NAVIGATION -->
+    <!-- TOP NAVIGATION BAR -->
     <nav class="kn-app-nav">
         <div class="kn-app-nav__container">
             <div class="kn-app-nav__brand">
@@ -44,10 +44,33 @@
         </div>
     </nav>
 
-    <!-- ROUTE CONTAINER -->
-    <main class="kn-app-main" id="appContent">
-        <!-- Routes will be rendered here -->
-    </main>
+    <!-- APP CONTENT (Renders Header, Workspace, Panel) -->
+    <div id="appContent">
+        <!-- Dynamic content injected here -->
+    </div>
+
+    <!-- PROOF FOOTER (Persistent Bottom Section) -->
+    <footer class="kn-proof-footer">
+        <h3 class="kn-proof-footer__title">Proof of Completion</h3>
+        <div class="kn-proof-checklist">
+            <label class="kn-checkbox">
+                <input type="checkbox" class="kn-checkbox__input" id="proof-ui">
+                <span class="kn-checkbox__label">UI Built</span>
+            </label>
+            <label class="kn-checkbox">
+                <input type="checkbox" class="kn-checkbox__input" id="proof-logic">
+                <span class="kn-checkbox__label">Logic Working</span>
+            </label>
+            <label class="kn-checkbox">
+                <input type="checkbox" class="kn-checkbox__input" id="proof-test">
+                <span class="kn-checkbox__label">Test Passed</span>
+            </label>
+            <label class="kn-checkbox">
+                <input type="checkbox" class="kn-checkbox__input" id="proof-deployed">
+                <span class="kn-checkbox__label">Deployed</span>
+            </label>
+        </div>
+    </footer>
 
     <!-- Routing Script -->
     <script src="app.js"></script>
